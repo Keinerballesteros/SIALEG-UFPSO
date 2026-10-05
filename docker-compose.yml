@@ -1,0 +1,32 @@
+services:
+  app:
+    build: .
+    container_name: sialeg_app
+    working_dir: /var/www/app
+    command: sh -c "composer install --no-interaction && php -S 0.0.0.0:8000 -t public"
+    ports:
+      - "8000:8000"
+    environment:
+      DB_HOST: host.docker.internal
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    volumes:
+      - .:/var/www/app
+      - vendor:/var/www/app/vendor
+      - var_data:/var/www/app/var
+
+  node:
+    image: node:22-bookworm-slim
+    container_name: sialeg_node
+    working_dir: /app
+    command: sh -c "npm install && npm run dev"
+    ports:
+      - "5173:5173"
+    volumes:
+      - .:/app
+      - node_modules:/app/node_modules
+
+volumes:
+  vendor:
+  var_data:
+  node_modules:
