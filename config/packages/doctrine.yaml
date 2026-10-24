@@ -8,6 +8,7 @@ doctrine:
         password: '%env(DB_PASSWORD)%'
         service: true
         charset: AL32UTF8
+        schema_filter: '~^(?!doctrine_migration_versions$)~i'
 
         profiling_collect_backtrace: '%kernel.debug%'
         use_savepoints: true
